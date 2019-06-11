@@ -7,6 +7,7 @@ import logging
 from django.views import generic
 from .models import Goods
 from .forms import GoodsSearchForm
+from .forms import GoodsSearchForm2
 from django.db.models import Q
 
 
@@ -20,8 +21,9 @@ class IndexView(generic.ListView):
     def post(self, request, *args, **kwargs):
 
         form_value = [
-            self.request.POST.get('title', None),
+            self.request.POST.get('goods_name', None),
             self.request.POST.get('price', None),
+            self.request.POST.get('categ', None),
         ]
         request.session['form_value'] = form_value
 
@@ -36,19 +38,25 @@ class IndexView(generic.ListView):
         context = super().get_context_data(**kwargs)
 
         # sessionに値がある場合、その値をセットする。（ページングしてもform値が変わらないように）
-        title = ''
+        goods_name = ''
         price = ''
+        categ = ''
         if 'form_value' in self.request.session:
             form_value = self.request.session['form_value']
-            title = form_value[0]
+            goods_name = form_value[0]
             price = form_value[1]
 
-        default_data = {'title': title,  # タイトル
-                        'price': price,  # 内容
+
+        default_data = {'goods_name': goods_name,  # 商品名
+                        'price': price,  # 価格
+                        'categ': categ,  # カテゴリー
                         }
 
         test_form = GoodsSearchForm(initial=default_data) # 検索フォーム
         context['test_form'] = test_form
+
+        #catadd_form =GoodsSearchForm2(initial=default_data) #プルダウン型検索フォーム
+        #context['catadd_form'] = catadd_form
 
         return context
 
@@ -58,19 +66,19 @@ class IndexView(generic.ListView):
         # sessionに値がある場合、その値でクエリ発行する。
         if 'form_value' in self.request.session:
             form_value = self.request.session['form_value']
-            title = form_value[0]
+            goods_name = form_value[0]
             price = form_value[1]
 
             # 検索条件
-            condition_title = Q()
+            condition_goods_name = Q()
             condition_price = Q()
 
-            if len(title) != 0 and title[0]:
-                condition_title = Q(title__contains=title)
+            if len(goods_name) != 0 and goods_name[0]:
+                condition_goods_name = Q(goods_name__contains=goods_name)
             if len(price) != 0 and price[0]:
                 condition_price = Q(price__contains=price)
 
-            return Goods.objects.select_related().filter(condition_title & condition_price)
+            return Goods.objects.select_related().filter(condition_goods_name & condition_price)
         else:
             # 何も返さない
             return Goods.objects.none()

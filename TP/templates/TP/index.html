@@ -21,14 +21,17 @@
         {% else %}
             <table class="table table-hover table-bordered">
                 <tr>
-                    <th>タイトル</th>
-                    <th>価格</th>
+                    <th>商品名</th>
+                    <th>カテゴリー</th>
+                    <th>商品価格</th>
                 </tr>
                 <tbody>
                 {% for post in object_list %}
                     <tr>
-                        <td width="35%">{{ post.title }}</td>
-                        <td width="65%">{{ post.price }}</td>
+                        <td width="35%">{{ post.goods_name }}</td>
+                        <td width="45%">{{ post.categ }}</td>
+                        <td width="20%">{{ post.price }}</td>
+
                     </tr>
                 {% endfor %}
                 </tbody>

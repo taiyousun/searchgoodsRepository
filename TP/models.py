@@ -8,8 +8,9 @@ class Goods(models.Model):
         db_table = 'goods'
 
     #テーブルのカラムに対応するフィールドを定義
-    title = models.CharField(verbose_name='タイトル', max_length=255)
+    goods_name = models.CharField(verbose_name='商品名', max_length=255)
     price = models.IntegerField(verbose_name='価格', null=True, blank=True)
+    categ = models.CharField(verbose_name='カテゴリ名',max_length=255)
 
     def __str__(self):
-        return self.title
+        return self.goods_name

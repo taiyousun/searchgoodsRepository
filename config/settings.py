@@ -27,7 +27,7 @@ SECRET_KEY = 'ljf8pi#%7$3g+@e5c04a3$m)6ll7s6z@5u0+&kbs^@(@2)^*gf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','.pythonanywhere.com']
 
 
 # Application definition
@@ -89,18 +89,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #TP追加
 #MySQL用設定
 DATABASES = {
-    'default': {
+     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tpdb',
-        'USER': 'root',
-        'PASSWORD': 'TPpass',
+        'NAME':'db_mysql', #db名を設定
+        'USER': 'root', # DBへ接続するユーザIDを設定
+        'PASSWORD': 'admin', # DBへ接続するユーザIDのパスワードを設定
         'HOST': 'localhost',
         'PORT': '3306',
-        'ATOMIC_REQUESTS': 'true', #トランザクションの有効範囲をリクエストの開始から終了までに設定
-        'OPTIONS': {
-            'sql_mode': 'TRADITIONAL,NO_AUTO_VALUE_ON_ZERO',
-            },
-    }
+        }
 }
 
 
